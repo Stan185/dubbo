@@ -20,7 +20,6 @@ import org.apache.dubbo.rpc.model.UnPack;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class PbUnpack<T> implements UnPack {
 
@@ -34,10 +33,5 @@ public class PbUnpack<T> implements UnPack {
     public Object unpack(byte[] data) throws IOException {
         final ByteArrayInputStream bais = new ByteArrayInputStream(data);
         return SingleProtobufUtils.deserialize(bais, clz);
-    }
-
-    @Override
-    public Object unpack(InputStream inputStream) throws IOException {
-        return SingleProtobufUtils.deserialize(inputStream, clz);
     }
 }

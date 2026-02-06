@@ -107,13 +107,12 @@ public class FinalFragmentStreamingDecoder implements StreamingDecoder {
 
     private void processBody() throws IOException {
         byte[] rawMessage = readRawMessage(accumulate, accumulate.available());
-        int messageLength = rawMessage.length;
         InputStream inputStream = new ByteArrayInputStream(rawMessage);
-        invokeListener(inputStream, messageLength);
+        invokeListener(inputStream);
     }
 
-    protected void invokeListener(InputStream inputStream, int messageLength) {
-        this.listener.onFragmentMessage(inputStream, messageLength);
+    protected void invokeListener(InputStream inputStream) {
+        this.listener.onFragmentMessage(inputStream);
     }
 
     protected byte[] readRawMessage(InputStream inputStream, int length) throws IOException {

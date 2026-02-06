@@ -109,15 +109,9 @@ public class CompositeInputStream extends InputStream {
         }
     }
 
-    private void releaseHeadStream() {
-        InputStream removeStream = inputStreams.poll();
-        if (removeStream != null) {
-            try {
-                removeStream.close();
-            } catch (IOException ignore) {
-                // ignore
-            }
-        }
+    private void releaseHeadStream() throws IOException {
+        InputStream removeStream = inputStreams.remove();
+        removeStream.close();
     }
 
     private void releaseIfNecessary(InputStream inputStream) throws IOException {

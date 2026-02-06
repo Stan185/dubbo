@@ -57,12 +57,8 @@ public class UnaryClientCallListener implements ClientCall.Listener {
     }
 
     @Override
-    public boolean streamingResponse() {
-        return false;
-    }
-
-    @Override
     public void onStart(ClientCall call) {
         future.addTimeoutListener(() -> call.cancelByLocal(new IllegalStateException("client timeout")));
+        call.request(2);
     }
 }

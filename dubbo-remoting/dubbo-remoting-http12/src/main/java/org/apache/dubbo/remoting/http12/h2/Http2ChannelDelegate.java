@@ -70,16 +70,6 @@ public class Http2ChannelDelegate implements H2StreamChannel {
     }
 
     @Override
-    public void consumeBytes(int numBytes) throws Exception {
-        h2StreamChannel.consumeBytes(numBytes);
-    }
-
-    @Override
-    public boolean isReady() {
-        return h2StreamChannel.isReady();
-    }
-
-    @Override
     public String toString() {
         return "Http2ChannelDelegate{" + "h2StreamChannel=" + h2StreamChannel + '}';
     }

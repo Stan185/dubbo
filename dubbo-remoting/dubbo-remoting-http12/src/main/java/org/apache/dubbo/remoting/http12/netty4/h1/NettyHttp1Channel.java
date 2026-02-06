@@ -28,7 +28,6 @@ import java.net.SocketAddress;
 import java.util.concurrent.CompletableFuture;
 
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 
 public class NettyHttp1Channel implements HttpChannel {
 
@@ -51,12 +50,7 @@ public class NettyHttp1Channel implements HttpChannel {
     @Override
     public CompletableFuture<Void> writeMessage(HttpOutputMessage httpOutputMessage) {
         NettyHttpChannelFutureListener nettyHttpChannelFutureListener = new NettyHttpChannelFutureListener();
-        this.channel.writeAndFlush(httpOutputMessage).addListener((ChannelFuture future) -> {
-            if (!future.isSuccess()) {
-                httpOutputMessage.close();
-            }
-            nettyHttpChannelFutureListener.operationComplete(future);
-        });
+        this.channel.writeAndFlush(httpOutputMessage).addListener(nettyHttpChannelFutureListener);
         return nettyHttpChannelFutureListener;
     }
 

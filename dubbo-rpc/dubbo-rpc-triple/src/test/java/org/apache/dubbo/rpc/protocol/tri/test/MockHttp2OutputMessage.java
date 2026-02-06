@@ -40,12 +40,4 @@ public class MockHttp2OutputMessage implements Http2OutputMessage {
     public boolean isEndStream() {
         return endStream;
     }
-
-    @Override
-    public int messageSize() {
-        if (outputStream instanceof ByteArrayOutputStream) {
-            return ((ByteArrayOutputStream) outputStream).size();
-        }
-        return 0;
-    }
 }

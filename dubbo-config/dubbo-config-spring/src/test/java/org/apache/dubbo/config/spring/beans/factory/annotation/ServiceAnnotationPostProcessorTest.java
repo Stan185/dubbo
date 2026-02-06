@@ -54,8 +54,6 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 @TestPropertySource(
         properties = {
             "provider.package = org.apache.dubbo.config.spring.context.annotation.provider",
-            "dubbo.metrics.enabled = false",
-            "dubbo.metrics.protocol = disabled"
         })
 @EnableDubbo(scanBasePackages = "${provider.package}")
 class ServiceAnnotationPostProcessorTest {

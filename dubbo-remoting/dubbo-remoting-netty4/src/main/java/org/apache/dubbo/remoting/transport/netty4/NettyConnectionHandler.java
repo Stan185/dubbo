@@ -18,7 +18,6 @@ package org.apache.dubbo.remoting.transport.netty4;
 
 import org.apache.dubbo.common.logger.ErrorTypeAwareLogger;
 import org.apache.dubbo.common.logger.LoggerFactory;
-import org.apache.dubbo.remoting.Constants;
 import org.apache.dubbo.remoting.api.connection.ConnectionHandler;
 
 import java.util.concurrent.TimeUnit;
@@ -58,7 +57,6 @@ public class NettyConnectionHandler extends ChannelInboundHandlerAdapter impleme
 
         attr.set(true);
         if (connectionClient != null) {
-            connectionClient.setAttribute(Constants.CHANNEL_ATTRIBUTE_READONLY_KEY, true);
             connectionClient.onGoaway(nettyChannel);
         }
         if (LOGGER.isDebugEnabled()) {

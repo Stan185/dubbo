@@ -18,6 +18,7 @@ package org.apache.dubbo.rpc.protocol.tri;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.constants.CommonConstants;
+import org.apache.dubbo.common.io.StreamUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.apache.dubbo.remoting.http12.exception.UnimplementedException;
 import org.apache.dubbo.rpc.Invoker;
@@ -124,9 +125,9 @@ public final class DescriptorUtils {
             ServiceDescriptor serviceDescriptor, String methodName, InputStream rawMessage) throws IOException {
         MethodDescriptor methodDescriptor = findReflectionMethodDescriptor(serviceDescriptor, methodName);
         if (methodDescriptor == null) {
-            rawMessage.mark(Integer.MAX_VALUE);
+            byte[] data = StreamUtils.readBytes(rawMessage);
             List<MethodDescriptor> methodDescriptors = serviceDescriptor.getMethods(methodName);
-            TripleRequestWrapper request = TripleRequestWrapper.parseFrom(rawMessage);
+            TripleRequestWrapper request = TripleRequestWrapper.parseFrom(data);
             String[] paramTypes = request.getArgTypes().toArray(new String[0]);
             // wrapper mode the method can overload so maybe list
             for (MethodDescriptor descriptor : methodDescriptors) {

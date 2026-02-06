@@ -18,9 +18,6 @@ package org.apache.dubbo.rpc.protocol.tri.stream;
 
 import org.apache.dubbo.rpc.TriRpcStatus;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 public class MockClientStreamListener implements ClientStream.Listener {
@@ -43,18 +40,8 @@ public class MockClientStreamListener implements ClientStream.Listener {
     public void onClose() {}
 
     @Override
-    public void onMessage(InputStream message, int messageLength, boolean isNeedReturnException) {
-        try {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] tmp = new byte[4096];
-            int len;
-            while ((len = message.read(tmp)) != -1) {
-                buffer.write(tmp, 0, len);
-            }
-            this.message = buffer.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void onMessage(byte[] message, boolean isNeedReturnException) {
+        this.message = message;
     }
 
     @Override

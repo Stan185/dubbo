@@ -25,7 +25,6 @@ import org.apache.dubbo.rpc.RpcContext;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -147,11 +146,7 @@ public abstract class AbstractServerHttpChannelObserver<H extends HttpChannel> i
         if (!headerSent) {
             sendMetadata(buildMetadata(statusCode, data, null, HttpOutputMessage.EMPTY_MESSAGE));
         }
-        sendMessage(buildMessage(statusCode, data)).whenComplete((unused, throwable) -> {
-            if (throwable != null) {
-                LOGGER.error(INTERNAL_ERROR, "", "", "Failed to send message on channel " + httpChannel, throwable);
-            }
-        });
+        sendMessage(buildMessage(statusCode, data));
     }
 
     protected final int resolveStatusCode(Object data) {
@@ -246,13 +241,12 @@ public abstract class AbstractServerHttpChannelObserver<H extends HttpChannel> i
         return getHttpChannel().newOutputMessage();
     }
 
-    protected CompletableFuture<Void> sendMessage(HttpOutputMessage message) throws Throwable {
+    protected final void sendMessage(HttpOutputMessage message) throws Throwable {
         if (message == null) {
-            return CompletableFuture.completedFuture(null);
+            return;
         }
-        CompletableFuture<Void> future = getHttpChannel().writeMessage(message);
+        getHttpChannel().writeMessage(message);
         postOutputMessage(message);
-        return future;
     }
 
     protected void preOutputMessage(HttpOutputMessage message) throws Throwable {}
@@ -280,11 +274,7 @@ public abstract class AbstractServerHttpChannelObserver<H extends HttpChannel> i
         if (!headerSent) {
             sendMetadata(buildMetadata(statusCode, data, throwable, HttpOutputMessage.EMPTY_MESSAGE));
         }
-        sendMessage(buildMessage(statusCode, data)).whenComplete((unused, t) -> {
-            if (t != null) {
-                LOGGER.error(INTERNAL_ERROR, "", "", "Failed to send error message on channel " + httpChannel, t);
-            }
-        });
+        sendMessage(buildMessage(statusCode, data));
     }
 
     protected final int resolveErrorStatusCode(Throwable throwable) {

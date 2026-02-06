@@ -18,7 +18,6 @@ package org.apache.dubbo.config.spring.extension;
 
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.config.spring.SysProps;
 import org.apache.dubbo.config.spring.api.DemoService;
 import org.apache.dubbo.config.spring.api.HelloService;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
@@ -42,16 +41,10 @@ class SpringExtensionInjectorTest {
     @BeforeEach
     public void init() {
         DubboBootstrap.reset();
-        SysProps.clear();
-        SysProps.setProperty("dubbo.metrics.enabled", "false");
-        SysProps.setProperty("dubbo.metrics.protocol", "disabled");
     }
 
     @AfterEach
-    public void destroy() {
-        DubboBootstrap.reset();
-        SysProps.clear();
-    }
+    public void destroy() {}
 
     @Test
     void testSpringInjector() {

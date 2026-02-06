@@ -21,7 +21,6 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
-import org.apache.dubbo.config.spring.SysProps;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.config.spring.isolation.spring.BaseTest;
 import org.apache.dubbo.config.spring.isolation.spring.support.DemoServiceExecutor;
@@ -42,9 +41,6 @@ public class AnnotationIsolationTest extends BaseTest {
 
     @Test
     public void test() throws Exception {
-        SysProps.clear();
-        SysProps.setProperty("dubbo.metrics.enabled", "false");
-        SysProps.setProperty("dubbo.metrics.protocol", "disabled");
         // start provider app
         AnnotationConfigApplicationContext providerContext =
                 new AnnotationConfigApplicationContext(ProviderConfiguration.class);

@@ -44,9 +44,7 @@ import org.springframework.context.annotation.ImportResource;
             "dubbo.registry.address=N/A",
             "myapp.dubbo.port=20881",
             "myapp.name=dubbo-provider",
-            "myapp.group=test",
-            "dubbo.metrics.enabled=false",
-            "dubbo.metrics.protocol=disabled"
+            "myapp.group=test"
         },
         classes = SpringBootImportAndScanTest.class)
 @Configuration

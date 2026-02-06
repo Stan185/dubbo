@@ -16,22 +16,17 @@
  */
 package org.apache.dubbo.rpc.protocol.tri.observer;
 
-import org.apache.dubbo.common.stream.ClientCallStreamObserver;
 import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
 import org.apache.dubbo.rpc.protocol.tri.ClientStreamObserver;
 import org.apache.dubbo.rpc.protocol.tri.call.ClientCall;
 
-public class ClientCallToObserverAdapter<T> extends CancelableStreamObserver<T>
-        implements ClientStreamObserver<T>, ClientCallStreamObserver<T> {
+public class ClientCallToObserverAdapter<T> extends CancelableStreamObserver<T> implements ClientStreamObserver<T> {
 
     private final ClientCall call;
-    private final boolean streamingResponse;
     private boolean terminated;
-    private Runnable onReadyHandler;
 
-    public ClientCallToObserverAdapter(ClientCall call, boolean streamingResponse) {
+    public ClientCallToObserverAdapter(ClientCall call) {
         this.call = call;
-        this.streamingResponse = streamingResponse;
     }
 
     public boolean isAutoRequestEnabled() {
@@ -73,24 +68,6 @@ public class ClientCallToObserverAdapter<T> extends CancelableStreamObserver<T>
     }
 
     @Override
-    public boolean isReady() {
-        return call.isReady();
-    }
-
-    @Override
-    public void setOnReadyHandler(Runnable onReadyHandler) {
-        // Store locally, to be triggered by ObserverToClientCallListenerAdapter.onReady()
-        this.onReadyHandler = onReadyHandler;
-    }
-
-    /**
-     * Get the onReadyHandler for use by ClientCall.Listener.onReady().
-     */
-    public Runnable getOnReadyHandler() {
-        return onReadyHandler;
-    }
-
-    @Override
     public void request(int count) {
         call.request(count);
     }
@@ -98,10 +75,5 @@ public class ClientCallToObserverAdapter<T> extends CancelableStreamObserver<T>
     @Override
     public void disableAutoFlowControl() {
         call.setAutoRequest(false);
-    }
-
-    @Override
-    public void disableAutoRequestWithInitial(int request) {
-        call.setAutoRequestWithInitial(request);
     }
 }

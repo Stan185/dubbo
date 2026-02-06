@@ -48,13 +48,7 @@ import static org.awaitility.Awaitility.await;
             MethodConfigCallbackTest.class,
             MethodConfigCallbackTest.MethodCallbackConfiguration.class
         })
-@TestPropertySource(
-        properties = {
-            "dubbo.protocol.port=-1",
-            "dubbo.registry.address=${zookeeper.connection.address}",
-            "dubbo.metrics.enabled = false",
-            "dubbo.metrics.protocol = disabled"
-        })
+@TestPropertySource(properties = {"dubbo.protocol.port=-1", "dubbo.registry.address=${zookeeper.connection.address}"})
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class MethodConfigCallbackTest {

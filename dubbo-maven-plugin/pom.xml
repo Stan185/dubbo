@@ -29,22 +29,22 @@
 
   <properties>
     <dubbo.version>${revision}</dubbo.version>
-    <!-- the protobuf-java version should be same with the version defined at dubbo-dependencies-bom -->
-    <protobuf-java.version>4.33.4</protobuf-java.version>
+    <protobuf-java.version>3.25.5</protobuf-java.version>
+    <!--<protobuf-java.version>3.24.3</protobuf-java.version>-->
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>3.9.12</version>
+      <version>3.9.10</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>3.9.12</version>
+      <version>3.9.10</version>
       <scope>provided</scope>
     </dependency>
 
@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.15.2</version>
+      <version>3.15.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -112,7 +112,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.15.2</version>
+        <version>3.15.1</version>
         <configuration>
           <goalPrefix>dubbo</goalPrefix>
         </configuration>

@@ -184,22 +184,12 @@ public class GrpcHttp2ServerTransportListener extends GenericHttp2ServerTranspor
     private class DetermineMethodDescriptorListener implements StreamingDecoder.FragmentListener {
 
         @Override
-        public void bytesRead(int numBytes) {
-            // Delegate to the H2StreamChannel for flow control
-            try {
-                getH2StreamChannel().consumeBytes(numBytes);
-            } catch (Exception e) {
-                LOGGER.warn(PROTOCOL_FAILED_PARSE, "", "", "Failed to consume bytes for flow control", e);
-            }
-        }
-
-        @Override
         public void onClose() {
             getStreamingDecoder().close();
         }
 
         @Override
-        public void onFragmentMessage(InputStream rawMessage, int messageLength) {
+        public void onFragmentMessage(InputStream rawMessage) {
             try {
                 RpcInvocationBuildContext context = getContext();
                 if (context.getMethodDescriptor() == null) {
@@ -209,7 +199,7 @@ public class GrpcHttp2ServerTransportListener extends GenericHttp2ServerTranspor
                     setHttpMessageListener(GrpcHttp2ServerTransportListener.super.buildHttpMessageListener());
                 }
 
-                ((GrpcStreamingDecoder) getStreamingDecoder()).invokeListener(rawMessage, messageLength);
+                ((GrpcStreamingDecoder) getStreamingDecoder()).invokeListener(rawMessage);
             } catch (IOException e) {
                 throw new DecodeException(e);
             }

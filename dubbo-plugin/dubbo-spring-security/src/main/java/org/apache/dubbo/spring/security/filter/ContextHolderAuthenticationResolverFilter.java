@@ -61,13 +61,7 @@ public class ContextHolderAuthenticationResolverFilter implements Filter {
             getSecurityContext(invocation);
         }
 
-        try {
-            return invoker.invoke(invocation);
-        } finally {
-            if (this.mapper != null) {
-                SecurityContextHolder.clearContext();
-            }
-        }
+        return invoker.invoke(invocation);
     }
 
     private void getSecurityContext(Invocation invocation) {

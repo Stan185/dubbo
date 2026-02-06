@@ -155,11 +155,6 @@ final class ServletStreamChannel implements H2StreamChannel {
     }
 
     @Override
-    public void consumeBytes(int numBytes) throws Exception {
-        // No flow control for servlet
-    }
-
-    @Override
     public CompletableFuture<Void> writeHeader(HttpMetadata httpMetadata) {
         if (writeable.get()) {
             flushQueue();
@@ -261,11 +256,6 @@ final class ServletStreamChannel implements H2StreamChannel {
 
     @Override
     public void flush() {}
-
-    @Override
-    public boolean isReady() {
-        return writeable.get();
-    }
 
     private static CompletableFuture<Void> completed() {
         return CompletableFuture.completedFuture(null);

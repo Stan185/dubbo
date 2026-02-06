@@ -126,8 +126,6 @@ public interface CommonConstants {
 
     String THREADS_KEY = "threads";
 
-    String THREADS_VIRTUAL_CORE = "threads.virtual.core";
-
     String QUEUES_KEY = "queues";
 
     String ALIVE_KEY = "alive";

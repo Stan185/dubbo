@@ -20,15 +20,12 @@ import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.config.Configuration;
 import org.apache.dubbo.common.config.ConfigurationUtils;
 import org.apache.dubbo.common.threadpool.manager.ExecutorRepository;
-import org.apache.dubbo.common.utils.ConcurrentHashMapUtils;
 import org.apache.dubbo.common.utils.ExecutorUtil;
 import org.apache.dubbo.common.utils.NetUtils;
 import org.apache.dubbo.remoting.Constants;
-import org.apache.dubbo.remoting.RemotingServer;
 import org.apache.dubbo.remoting.api.connection.AbstractConnectionClient;
 import org.apache.dubbo.remoting.api.pu.DefaultPuHandler;
 import org.apache.dubbo.remoting.exchange.PortUnificationExchanger;
-import org.apache.dubbo.rpc.DefaultProtocolServer;
 import org.apache.dubbo.rpc.Exporter;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.PathResolver;
@@ -94,8 +91,6 @@ public class TripleProtocol extends AbstractProtocol {
 
         ServletExchanger.init(globalConf);
         Http3Exchanger.init(globalConf);
-
-        this.frameworkModel.getBeanFactory().registerBean(new TripleGracefulShutdown(this));
     }
 
     @Override
@@ -180,11 +175,7 @@ public class TripleProtocol extends AbstractProtocol {
         }
 
         if (bindPort) {
-            String addr = url.getAddress();
-            ConcurrentHashMapUtils.computeIfAbsent(serverMap, addr, k -> {
-                RemotingServer remotingServer = PortUnificationExchanger.bind(url, new DefaultPuHandler());
-                return new DefaultProtocolServer(remotingServer);
-            });
+            PortUnificationExchanger.bind(url, new DefaultPuHandler());
         }
 
         Http3Exchanger.bind(url);

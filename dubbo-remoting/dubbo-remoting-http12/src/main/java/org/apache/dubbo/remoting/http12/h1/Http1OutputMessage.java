@@ -43,12 +43,4 @@ public final class Http1OutputMessage implements HttpOutputMessage {
         }
         outputStream.close();
     }
-
-    @Override
-    public int messageSize() {
-        if (outputStream instanceof ByteBufOutputStream) {
-            return ((ByteBufOutputStream) outputStream).buffer().readableBytes();
-        }
-        return 0;
-    }
 }
